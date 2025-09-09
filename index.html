@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Időkapszula</title>
     <style>
+        /* Reset and Base */
         * {
             margin: 0;
             padding: 0;
@@ -12,11 +13,12 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #000;
+            color: #fff;
             min-height: 100vh;
             overflow-x: hidden;
-            transition: background 0.5s ease;
+            font-weight: 300;
         }
 
         .container {
@@ -27,7 +29,34 @@
             padding: 20px;
         }
 
-        /* Butterfly Animation */
+        /* Test Button */
+        .test-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+        }
+
+        .test-btn {
+            padding: 8px 16px;
+            background: #fff;
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .test-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-1px);
+        }
+
+        /* Professional Butterfly Animation */
         .butterfly-scene {
             position: relative;
             width: 100%;
@@ -37,110 +66,151 @@
 
         .butterfly {
             position: absolute;
-            font-size: 3rem;
-            animation: fly 4s ease-in-out forwards;
-            z-index: 10;
+            left: -100px;
+            top: 50%;
+            font-size: 2.5rem;
+            opacity: 0;
+            animation: professionalFly 6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            filter: drop-shadow(0 4px 8px rgba(255,255,255,0.1));
         }
 
         .tree-stick {
             position: absolute;
-            right: 20%;
-            top: 30%;
-            font-size: 4rem;
+            right: 15%;
+            top: 25%;
+            font-size: 3rem;
             opacity: 0;
-            animation: fadeIn 1s ease-in 3s forwards;
+            animation: fadeInElement 1s ease-out 4.5s forwards;
         }
 
-        @keyframes fly {
+        @keyframes professionalFly {
             0% {
-                left: -10%;
-                top: 50%;
-                transform: rotate(0deg);
+                left: -100px;
+                top: 60%;
+                opacity: 0;
+                transform: translateY(0) rotate(-10deg) scale(0.8);
             }
-            50% {
-                left: 40%;
-                top: 20%;
-                transform: rotate(15deg);
+            15% {
+                opacity: 1;
+                transform: translateY(-20px) rotate(5deg) scale(1);
+            }
+            35% {
+                left: 25%;
+                top: 40%;
+                transform: translateY(-40px) rotate(-5deg) scale(1.1);
+            }
+            65% {
+                left: 50%;
+                top: 30%;
+                transform: translateY(-20px) rotate(10deg) scale(1);
+            }
+            85% {
+                left: 70%;
+                top: 25%;
+                transform: translateY(-10px) rotate(-2deg) scale(0.95);
             }
             100% {
-                left: 18%;
-                top: 32%;
-                transform: rotate(0deg);
+                left: calc(15% + 30px);
+                top: 27%;
+                opacity: 1;
+                transform: translateY(0) rotate(0deg) scale(1);
             }
         }
 
-        @keyframes fadeIn {
-            to { opacity: 1; }
+        @keyframes fadeInElement {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Timer Styles */
+        /* Minimalist Timer */
         .timer-container {
             text-align: center;
-            color: white;
             opacity: 0;
-            animation: fadeIn 1s ease-in 4s forwards;
-        }
-
-        .timer {
-            font-size: 3rem;
-            font-weight: bold;
-            margin: 20px 0;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInElement 1s ease-out 5s forwards;
         }
 
         .timer-label {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            opacity: 0.9;
+            font-size: 1rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .timer-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .timer-box {
+            background: #fff;
+            color: #000;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            padding: 20px;
+            min-width: 80px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .timer-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .timer-unit {
+            font-size: 0.8rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* Time Message */
         .time-message {
             text-align: center;
-            color: white;
-            font-size: 4rem;
-            font-weight: bold;
+            font-size: 3rem;
+            font-weight: 100;
             opacity: 0;
-            animation: fadeIn 1s ease-in 4s forwards;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: fadeInElement 1s ease-out 5s forwards;
+            letter-spacing: 4px;
+            text-transform: uppercase;
         }
 
         /* Questions Container */
         .questions-container {
             display: none;
             width: 100%;
-            max-width: 800px;
+            max-width: 600px;
             margin: 0 auto;
         }
 
         .question-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 40px;
-            margin: 20px 0;
-            color: white;
+            background: #fff;
+            color: #000;
+            border: 2px solid #000;
+            border-radius: 0;
+            padding: 60px 40px;
+            margin: 0;
             display: none;
-            animation: slideIn 0.5s ease-out;
+            animation: slideInCard 0.6s ease-out;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .question-card.active {
-            display: block;
+            display: flex;
         }
 
-        @keyframes slideIn {
+        @keyframes slideInCard {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
@@ -149,108 +219,135 @@
         }
 
         .question-title {
-            font-size: 1.8rem;
-            margin-bottom: 30px;
-            font-weight: bold;
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+            line-height: 1.4;
+            text-align: center;
         }
 
-        .question-input {
+        .question-input, .question-textarea {
             width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.9);
-            font-size: 1.1rem;
-            margin-bottom: 20px;
+            padding: 20px;
+            border: 2px solid #000;
+            border-radius: 0;
+            background: transparent;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .question-input:focus, .question-textarea:focus {
+            outline: none;
+            border-color: #666;
+            background: #f9f9f9;
+        }
+
+        .question-textarea {
+            resize: vertical;
+            min-height: 120px;
         }
 
         /* Mood Slider */
         .mood-slider-container {
-            margin: 30px 0;
+            margin: 40px 0;
         }
 
         .mood-slider {
             width: 100%;
-            height: 20px;
-            border-radius: 10px;
+            height: 6px;
+            border-radius: 0;
             outline: none;
-            background: linear-gradient(to right, #4FC3F7, #FFD700);
+            background: #000;
             -webkit-appearance: none;
-            margin: 20px 0;
+            margin: 30px 0;
         }
 
         .mood-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 0;
+            background: #000;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 2px solid #fff;
         }
 
         .mood-value {
             text-align: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-top: 10px;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 20px;
+            border: 2px solid #000;
+            padding: 10px;
+            display: inline-block;
+            min-width: 60px;
         }
 
         /* File Upload */
         .upload-section {
-            margin: 20px 0;
+            margin: 30px 0;
         }
 
         .upload-item {
-            margin: 15px 0;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            border: 2px dashed rgba(255, 255, 255, 0.3);
+            margin: 20px 0;
+            padding: 30px;
+            border: 2px dashed #000;
+            border-radius: 0;
+            transition: all 0.3s ease;
+        }
+
+        .upload-item:hover {
+            background: #f9f9f9;
         }
 
         .upload-label {
             display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
+            margin-bottom: 15px;
+            font-weight: 500;
+            font-size: 0.9rem;
         }
 
         .file-input {
             width: 100%;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            border-radius: 5px;
+            padding: 15px;
+            background: transparent;
+            border: 1px solid #000;
+            border-radius: 0;
+            font-family: inherit;
         }
 
         /* Navigation Buttons */
         .nav-buttons {
             display: flex;
             justify-content: space-between;
-            margin-top: 30px;
+            margin-top: 40px;
+            gap: 20px;
         }
 
         .btn {
             padding: 15px 30px;
-            border: none;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            color: white;
-            font-size: 1.1rem;
-            font-weight: bold;
+            border: 2px solid #000;
+            border-radius: 0;
+            background: transparent;
+            color: #000;
+            font-size: 1rem;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            flex: 1;
         }
 
         .btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
+            background: #000;
+            color: #fff;
         }
 
         .btn:disabled {
-            opacity: 0.5;
+            opacity: 0.3;
             cursor: not-allowed;
         }
 
@@ -261,40 +358,49 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: rgba(255, 255, 255, 0.2);
+            background: #333;
             z-index: 1000;
         }
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(to right, #4FC3F7, #FFD700);
-            transition: width 0.3s ease;
+            background: #fff;
+            transition: width 0.5s ease;
             width: 0%;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
             .container {
-                padding: 10px;
+                padding: 15px;
             }
             
             .question-card {
-                padding: 20px;
-                margin: 10px 0;
+                padding: 40px 20px;
+                min-height: 80vh;
             }
             
             .question-title {
-                font-size: 1.4rem;
+                font-size: 1.2rem;
+                margin-bottom: 30px;
             }
             
-            .timer {
+            .timer-boxes {
+                gap: 10px;
+            }
+            
+            .timer-box {
+                min-width: 60px;
+                padding: 15px 10px;
+            }
+            
+            .timer-number {
                 font-size: 2rem;
-                padding: 20px;
             }
             
             .time-message {
-                font-size: 2.5rem;
-                padding: 20px;
+                font-size: 2rem;
+                letter-spacing: 2px;
             }
             
             .butterfly {
@@ -302,12 +408,47 @@
             }
             
             .tree-stick {
-                font-size: 3rem;
+                font-size: 2.5rem;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .test-controls {
+                top: 10px;
+                right: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .timer-boxes {
+                gap: 8px;
+            }
+            
+            .timer-box {
+                min-width: 50px;
+                padding: 12px 8px;
+            }
+            
+            .timer-number {
+                font-size: 1.5rem;
+            }
+            
+            .timer-unit {
+                font-size: 0.7rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Test Controls -->
+    <div class="test-controls">
+        <button class="test-btn" onclick="testTimer()">Test Timer</button>
+        <button class="test-btn" onclick="testTimeMessage()">Test "It's Time"</button>
+    </div>
+
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
@@ -318,14 +459,31 @@
             <div class="butterfly">🦋</div>
             <div class="tree-stick">🌿</div>
             
-            <!-- Timer or Time Message -->
+            <!-- Timer -->
             <div class="timer-container" id="timerContainer" style="display: none;">
-                <div class="timer-label">Visszaszámlálás szeptember 10-ig</div>
-                <div class="timer" id="timer"></div>
+                <div class="timer-label">Szeptember 10-ig</div>
+                <div class="timer-boxes" id="timerBoxes">
+                    <div class="timer-box">
+                        <div class="timer-number" id="days">00</div>
+                        <div class="timer-unit">nap</div>
+                    </div>
+                    <div class="timer-box">
+                        <div class="timer-number" id="hours">00</div>
+                        <div class="timer-unit">óra</div>
+                    </div>
+                    <div class="timer-box">
+                        <div class="timer-number" id="minutes">00</div>
+                        <div class="timer-unit">perc</div>
+                    </div>
+                    <div class="timer-box">
+                        <div class="timer-number" id="seconds">00</div>
+                        <div class="timer-unit">mp</div>
+                    </div>
+                </div>
             </div>
             
             <div class="time-message" id="timeMessage" style="display: none;">
-                Itt az idő! 🦋
+                Itt az idő
             </div>
         </div>
 
@@ -336,7 +494,8 @@
                 <div class="question-title">Van valami apró, de fontos dolog, amit szeretnél megőrizni a jelenből?</div>
                 <input type="text" class="question-input" id="q1-input" placeholder="Írd le, mi az...">
                 <div class="nav-buttons">
-                    <button class="btn" onclick="nextQuestion()" id="next-btn-1">Tovább</button>
+                    <div></div>
+                    <button class="btn" onclick="nextQuestion()">Tovább</button>
                 </div>
             </div>
 
@@ -345,7 +504,9 @@
                 <div class="question-title">Így érzem magam</div>
                 <div class="mood-slider-container">
                     <input type="range" min="1" max="10" value="5" class="mood-slider" id="moodSlider">
-                    <div class="mood-value" id="moodValue">5</div>
+                    <div style="text-align: center;">
+                        <span class="mood-value" id="moodValue">5</span>
+                    </div>
                 </div>
                 <div class="nav-buttons">
                     <button class="btn" onclick="prevQuestion()">Vissza</button>
@@ -379,7 +540,7 @@
             <!-- Question 4 -->
             <div class="question-card" data-question="4">
                 <div class="question-title">Mi az a belső cél, amiért a legmélyebben élsz?</div>
-                <textarea class="question-input" id="q4-input" placeholder="Írd le a célodat..." rows="4"></textarea>
+                <textarea class="question-textarea" id="q4-input" placeholder="Írd le a célodat..." rows="4"></textarea>
                 <div class="nav-buttons">
                     <button class="btn" onclick="prevQuestion()">Vissza</button>
                     <button class="btn" onclick="nextQuestion()">Tovább</button>
@@ -389,14 +550,14 @@
             <!-- Question 5 -->
             <div class="question-card" data-question="5">
                 <div class="question-title">Egy cél, amit minden áron el szeretnék érni</div>
-                <textarea class="question-input" id="q5-input" placeholder="Írd le, mit szeretnél elérni..." rows="4"></textarea>
+                <textarea class="question-textarea" id="q5-input" placeholder="Írd le, mit szeretnél elérni..." rows="4"></textarea>
                 <div class="nav-buttons">
                     <button class="btn" onclick="prevQuestion()">Vissza</button>
                     <button class="btn" onclick="nextQuestion()">Tovább</button>
                 </div>
             </div>
 
-            <!-- Placeholder questions 6-10 -->
+            <!-- Questions 6-10 -->
             <div class="question-card" data-question="6">
                 <div class="question-title">6. kérdés (hozzáadandó)</div>
                 <input type="text" class="question-input" placeholder="Válaszod...">
@@ -448,13 +609,36 @@
         let currentQuestion = 1;
         const totalQuestions = 10;
 
-        // Check date and initialize
+        // Test functions
+        function testTimer() {
+            document.getElementById('butterflyScene').style.display = 'block';
+            document.getElementById('questionsContainer').style.display = 'none';
+            document.getElementById('timeMessage').style.display = 'none';
+            document.getElementById('timerContainer').style.display = 'block';
+            
+            // Set a test target date (10 seconds from now)
+            const testDate = new Date();
+            testDate.setSeconds(testDate.getSeconds() + 10);
+            updateTimer(testDate);
+            setInterval(() => updateTimer(testDate), 1000);
+        }
+
+        function testTimeMessage() {
+            document.getElementById('butterflyScene').style.display = 'block';
+            document.getElementById('questionsContainer').style.display = 'none';
+            document.getElementById('timerContainer').style.display = 'none';
+            showTimeMessage();
+        }
+
+        // Main date checking function
         function checkDate() {
             const now = new Date();
-            const targetDate = new Date(now.getFullYear(), 8, 10); // September 10 (month is 0-indexed)
+            const targetDate = new Date(now.getFullYear(), 8, 10); // September 10
             
-            // For testing, you can uncomment this line to simulate September 10:
-            // targetDate.setTime(now.getTime());
+            // Adjust if the date has passed this year
+            if (now > targetDate) {
+                targetDate.setFullYear(targetDate.getFullYear() + 1);
+            }
             
             setTimeout(() => {
                 if (now.toDateString() === targetDate.toDateString()) {
@@ -462,14 +646,20 @@
                 } else {
                     showTimer(targetDate);
                 }
-            }, 4000);
+            }, 6000); // Wait for butterfly animation
         }
 
         function showTimer(targetDate) {
             document.getElementById('timerContainer').style.display = 'block';
             updateTimer(targetDate);
             
-            setInterval(() => updateTimer(targetDate), 1000);
+            const timerInterval = setInterval(() => {
+                const timeLeft = updateTimer(targetDate);
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    showTimeMessage();
+                }
+            }, 1000);
         }
 
         function updateTimer(targetDate) {
@@ -477,8 +667,11 @@
             const difference = targetDate - now;
             
             if (difference <= 0) {
-                showTimeMessage();
-                return;
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                return 0;
             }
             
             const days = Math.floor(difference / (1000 * 60 * 60 * 24));
@@ -486,15 +679,19 @@
             const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((difference % (1000 * 60)) / 1000);
             
-            document.getElementById('timer').textContent = 
-                `${days}n ${hours}ó ${minutes}p ${seconds}mp`;
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            
+            return difference;
         }
 
         function showTimeMessage() {
             document.getElementById('timerContainer').style.display = 'none';
             document.getElementById('timeMessage').style.display = 'block';
             
-            setTimeout(startQuestions, 3000);
+            setTimeout(startQuestions, 4000);
         }
 
         function startQuestions() {
@@ -539,18 +736,12 @@
             moodSlider.addEventListener('input', function() {
                 const value = this.value;
                 moodValue.textContent = value;
-                
-                // Change background gradient based on mood
-                const hue = (value - 1) * 30; // 0 to 270 degrees
-                document.body.style.background = 
-                    `linear-gradient(135deg, hsl(${200 + hue}, 70%, 60%) 0%, hsl(${240 + hue}, 70%, 50%) 100%)`;
             });
         }
 
         function finishCapsule() {
-            alert('Időkapszula elkészült! 🦋✨\n\nVálaszaid biztonságban vannak a jövő számára.');
+            alert('Időkapszula elkészült!\n\nVálaszaid biztonságban vannak a jövő számára.');
             
-            // Here you could save the data to localStorage or send to a server
             const capsuleData = {
                 q1: document.getElementById('q1-input').value,
                 mood: document.getElementById('moodSlider').value,
