@@ -791,7 +791,7 @@
                 timestamp: new Date().toISOString(),
                 answers: timeCapsuleData,
                 images: images,
-                meta {
+                meta: {
                     version: '1.0',
                     totalQuestions: 10
                 }
@@ -867,6 +867,10 @@
                     card.classList.add('has-image');
                 }
             });
+
+            if (timeCapsuleData['question2']) {
+                updateMoodBackground();
+            }
         }
 
         // Auto-save on input changes
