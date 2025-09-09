@@ -3,9 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Időkapszula</title>
+    <title>Time Capsule - Időkapszula</title>
     <style>
-        /* Reset and Base */
+        :root {
+            --primary-blue: #4a90e2;
+            --primary-gold: #f5a623;
+            --bg-dark: #1a1a2e;
+            --bg-light: #16213e;
+            --text-light: #ffffff;
+            --text-muted: #b8c5d6;
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,342 +26,297 @@
         }
 
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background: #000;
-            color: #fff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-light) 100%);
+            color: var(--text-light);
             min-height: 100vh;
             overflow-x: hidden;
-            font-weight: 300;
         }
 
         .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
         }
 
-        /* Test Button */
-        .test-controls {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            display: flex;
-            gap: 10px;
-        }
-
-        .test-btn {
-            padding: 8px 16px;
-            background: #fff;
-            color: #000;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .test-btn:hover {
-            background: #f0f0f0;
-            transform: translateY(-1px);
-        }
-
-        /* Professional Butterfly Animation */
-        .butterfly-scene {
-            position: relative;
+        .section {
+            display: none;
             width: 100%;
-            height: 100vh;
-            overflow: hidden;
+            text-align: center;
+            animation: fadeIn 0.6s ease-out;
         }
 
-        .butterfly {
-            position: absolute;
-            left: -100px;
-            top: 50%;
-            font-size: 2.5rem;
-            opacity: 0;
-            animation: professionalFly 6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-            filter: drop-shadow(0 4px 8px rgba(255,255,255,0.1));
+        .section.active {
+            display: block;
         }
 
-        .tree-stick {
-            position: absolute;
-            right: 15%;
-            top: 25%;
-            font-size: 3rem;
-            opacity: 0;
-            animation: fadeInElement 1s ease-out 4.5s forwards;
-        }
-
-        @keyframes professionalFly {
-            0% {
-                left: -100px;
-                top: 60%;
-                opacity: 0;
-                transform: translateY(0) rotate(-10deg) scale(0.8);
-            }
-            15% {
-                opacity: 1;
-                transform: translateY(-20px) rotate(5deg) scale(1);
-            }
-            35% {
-                left: 25%;
-                top: 40%;
-                transform: translateY(-40px) rotate(-5deg) scale(1.1);
-            }
-            65% {
-                left: 50%;
-                top: 30%;
-                transform: translateY(-20px) rotate(10deg) scale(1);
-            }
-            85% {
-                left: 70%;
-                top: 25%;
-                transform: translateY(-10px) rotate(-2deg) scale(0.95);
-            }
-            100% {
-                left: calc(15% + 30px);
-                top: 27%;
-                opacity: 1;
-                transform: translateY(0) rotate(0deg) scale(1);
-            }
-        }
-
-        @keyframes fadeInElement {
+        @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Minimalist Timer */
-        .timer-container {
-            text-align: center;
-            opacity: 0;
-            animation: fadeInElement 1s ease-out 5s forwards;
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
-        .timer-label {
-            font-size: 1rem;
-            font-weight: 300;
+        /* Butterfly Animation */
+        .butterfly-scene {
+            position: relative;
+            width: 100%;
+            height: 400px;
             margin-bottom: 40px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
         }
 
-        .timer-boxes {
-            display: flex;
-            justify-content: center;
+        .tree {
+            position: absolute;
+            right: 20%;
+            bottom: 0;
+            width: 150px;
+            height: 200px;
+            background: linear-gradient(to top, #8B4513, #A0522D);
+            border-radius: 0 0 10px 10px;
+            z-index: 1;
+        }
+
+        .tree::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #228B22, #32CD32);
+            border-radius: 50%;
+        }
+
+        .branch {
+            position: absolute;
+            top: -10px;
+            right: -20px;
+            width: 60px;
+            height: 8px;
+            background: #8B4513;
+            border-radius: 4px;
+            transform: rotate(-15deg);
+        }
+
+        .butterfly {
+            position: absolute;
+            left: 10%;
+            top: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 40px;
+            animation: flyToTree 4s ease-in-out forwards;
+            z-index: 2;
+        }
+
+        @keyframes flyToTree {
+            0% {
+                left: 10%;
+                top: 50%;
+                transform: rotate(-10deg) scale(1);
+            }
+            25% {
+                left: 30%;
+                top: 30%;
+                transform: rotate(5deg) scale(1.1);
+            }
+            50% {
+                left: 50%;
+                top: 60%;
+                transform: rotate(-5deg) scale(0.9);
+            }
+            75% {
+                left: 65%;
+                top: 40%;
+                transform: rotate(10deg) scale(1.05);
+            }
+            100% {
+                left: 70%;
+                top: 45%;
+                transform: rotate(0deg) scale(1);
+            }
+        }
+
+        @keyframes wingFlap {
+            0%, 100% { transform: scaleX(1) scaleY(1); }
+            50% { transform: scaleX(0.8) scaleY(1.2); }
+        }
+
+        .butterfly::before {
+            content: '🦋';
+            animation: wingFlap 0.3s infinite;
+        }
+
+        /* Countdown Timer */
+        .countdown {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
-            flex-wrap: wrap;
+            margin: 40px 0;
         }
 
-        .timer-box {
-            background: #fff;
-            color: #000;
-            border: 2px solid #fff;
-            border-radius: 8px;
+        .time-unit {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
             padding: 20px;
-            min-width: 80px;
-            text-align: center;
-            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
         }
 
-        .timer-number {
+        .time-number {
             font-size: 2.5rem;
             font-weight: 700;
-            line-height: 1;
-            margin-bottom: 5px;
+            color: var(--primary-gold);
         }
 
-        .timer-unit {
-            font-size: 0.8rem;
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .time-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 5px;
         }
 
-        /* Time Message */
-        .time-message {
-            text-align: center;
+        /* Celebration */
+        .celebration {
             font-size: 3rem;
-            font-weight: 100;
-            opacity: 0;
-            animation: fadeInElement 1s ease-out 5s forwards;
-            letter-spacing: 4px;
-            text-transform: uppercase;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-blue), var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: sparkle 2s ease-in-out;
         }
 
-        /* Questions Container */
-        .questions-container {
-            display: none;
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
+        /* Form Elements */
         .question-card {
-            background: #fff;
-            color: #000;
-            border: 2px solid #000;
-            border-radius: 0;
-            padding: 60px 40px;
-            margin: 0;
-            display: none;
-            animation: slideInCard 0.6s ease-out;
-            min-height: 70vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .question-card.active {
-            display: flex;
-        }
-
-        @keyframes slideInCard {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            margin: 20px 0;
         }
 
         .question-title {
             font-size: 1.5rem;
-            margin-bottom: 40px;
-            font-weight: 300;
-            line-height: 1.4;
-            text-align: center;
-        }
-
-        .question-input, .question-textarea {
-            width: 100%;
-            padding: 20px;
-            border: 2px solid #000;
-            border-radius: 0;
-            background: transparent;
-            font-size: 1rem;
+            font-weight: 600;
             margin-bottom: 30px;
-            font-family: inherit;
-            transition: all 0.3s ease;
+            color: var(--text-light);
         }
 
-        .question-input:focus, .question-textarea:focus {
+        .text-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .text-input:focus {
             outline: none;
-            border-color: #666;
-            background: #f9f9f9;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
         }
 
-        .question-textarea {
-            resize: vertical;
+        .textarea-input {
             min-height: 120px;
+            resize: vertical;
         }
 
         /* Mood Slider */
         .mood-slider-container {
+            position: relative;
             margin: 40px 0;
         }
 
         .mood-slider {
             width: 100%;
-            height: 6px;
-            border-radius: 0;
+            height: 8px;
+            background: linear-gradient(to right, var(--primary-blue), var(--primary-gold));
+            border-radius: 4px;
             outline: none;
-            background: #000;
             -webkit-appearance: none;
-            margin: 30px 0;
         }
 
         .mood-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 24px;
             height: 24px;
-            border-radius: 0;
-            background: #000;
+            background: white;
+            border-radius: 50%;
             cursor: pointer;
-            border: 2px solid #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
-        .mood-value {
-            text-align: center;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-top: 20px;
-            border: 2px solid #000;
-            padding: 10px;
-            display: inline-block;
-            min-width: 60px;
+        .mood-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
         }
 
-        /* File Upload */
-        .upload-section {
+        /* Image Upload */
+        .image-uploads {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
             margin: 30px 0;
         }
 
-        .upload-item {
-            margin: 20px 0;
-            padding: 30px;
-            border: 2px dashed #000;
-            border-radius: 0;
-            transition: all 0.3s ease;
+        .image-upload-card {
+            background: var(--glass-bg);
+            border: 2px dashed var(--glass-border);
+            border-radius: var(--border-radius);
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
         }
 
-        .upload-item:hover {
-            background: #f9f9f9;
+        .image-upload-card:hover {
+            border-color: var(--primary-blue);
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .image-upload-card.has-image {
+            border-style: solid;
+            border-color: var(--primary-gold);
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
         }
 
         .upload-label {
-            display: block;
-            margin-bottom: 15px;
-            font-weight: 500;
             font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
         }
 
         .file-input {
-            width: 100%;
-            padding: 15px;
-            background: transparent;
-            border: 1px solid #000;
-            border-radius: 0;
-            font-family: inherit;
-        }
-
-        /* Navigation Buttons */
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 40px;
-            gap: 20px;
-        }
-
-        .btn {
-            padding: 15px 30px;
-            border: 2px solid #000;
-            border-radius: 0;
-            background: transparent;
-            color: #000;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            flex: 1;
-        }
-
-        .btn:hover {
-            background: #000;
-            color: #fff;
-        }
-
-        .btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
+            display: none;
         }
 
         /* Progress Bar */
@@ -356,17 +324,80 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
+            right: 0;
             height: 4px;
-            background: #333;
+            background: rgba(255, 255, 255, 0.1);
             z-index: 1000;
         }
 
         .progress-bar {
             height: 100%;
-            background: #fff;
-            transition: width 0.5s ease;
-            width: 0%;
+            background: linear-gradient(to right, var(--primary-blue), var(--primary-gold));
+            transition: width 0.3s ease;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, var(--primary-blue), var(--primary-gold));
+            border: none;
+            border-radius: var(--border-radius);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Review Screen */
+        .review-grid {
+            display: grid;
+            gap: 20px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .review-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            padding: 20px;
+        }
+
+        .review-label {
+            font-size: 0.9rem;
+            color: var(--primary-gold);
+            margin-bottom: 10px;
+        }
+
+        .review-content {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .review-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .review-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
         }
 
         /* Responsive Design */
@@ -374,387 +405,477 @@
             .container {
                 padding: 15px;
             }
-            
+
             .question-card {
-                padding: 40px 20px;
-                min-height: 80vh;
-            }
-            
-            .question-title {
-                font-size: 1.2rem;
-                margin-bottom: 30px;
-            }
-            
-            .timer-boxes {
-                gap: 10px;
-            }
-            
-            .timer-box {
-                min-width: 60px;
-                padding: 15px 10px;
-            }
-            
-            .timer-number {
-                font-size: 2rem;
-            }
-            
-            .time-message {
-                font-size: 2rem;
-                letter-spacing: 2px;
-            }
-            
-            .butterfly {
-                font-size: 2rem;
-            }
-            
-            .tree-stick {
-                font-size: 2.5rem;
+                padding: 25px;
             }
 
-            .nav-buttons {
-                flex-direction: column;
+            .countdown {
+                grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
             }
 
-            .test-controls {
-                top: 10px;
-                right: 10px;
+            .time-number {
+                font-size: 2rem;
+            }
+
+            .celebration {
+                font-size: 2rem;
+            }
+
+            .image-uploads {
+                grid-template-columns: 1fr;
             }
         }
 
-        @media (max-width: 480px) {
-            .timer-boxes {
-                gap: 8px;
-            }
-            
-            .timer-box {
-                min-width: 50px;
-                padding: 12px 8px;
-            }
-            
-            .timer-number {
-                font-size: 1.5rem;
-            }
-            
-            .timer-unit {
-                font-size: 0.7rem;
-            }
+        /* Background Animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(74, 144, 226, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(245, 166, 35, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
         }
     </style>
 </head>
 <body>
-    <!-- Test Controls -->
-    <div class="test-controls">
-        <button class="test-btn" onclick="testTimer()">Test Timer</button>
-        <button class="test-btn" onclick="testTimeMessage()">Test "It's Time"</button>
-    </div>
-
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
 
     <div class="container">
-        <!-- Butterfly Scene -->
-        <div class="butterfly-scene" id="butterflyScene">
-            <div class="butterfly">🦋</div>
-            <div class="tree-stick">🌿</div>
-            
-            <!-- Timer -->
-            <div class="timer-container" id="timerContainer" style="display: none;">
-                <div class="timer-label">Szeptember 10-ig</div>
-                <div class="timer-boxes" id="timerBoxes">
-                    <div class="timer-box">
-                        <div class="timer-number" id="days">00</div>
-                        <div class="timer-unit">nap</div>
-                    </div>
-                    <div class="timer-box">
-                        <div class="timer-number" id="hours">00</div>
-                        <div class="timer-unit">óra</div>
-                    </div>
-                    <div class="timer-box">
-                        <div class="timer-number" id="minutes">00</div>
-                        <div class="timer-unit">perc</div>
-                    </div>
-                    <div class="timer-box">
-                        <div class="timer-number" id="seconds">00</div>
-                        <div class="timer-unit">mp</div>
-                    </div>
+        <!-- Entrance Section -->
+        <section class="section active" id="entrance">
+            <div class="butterfly-scene">
+                <div class="tree">
+                    <div class="branch"></div>
+                </div>
+                <div class="butterfly"></div>
+            </div>
+            <h1>Time Capsule</h1>
+            <p>Őrizd meg a pillanatot...</p>
+        </section>
+
+        <!-- Countdown Section -->
+        <section class="section" id="countdown-section">
+            <h2>Hamarosan...</h2>
+            <div class="countdown" id="countdown">
+                <div class="time-unit">
+                    <div class="time-number" id="days">0</div>
+                    <div class="time-label">Nap</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-number" id="hours">0</div>
+                    <div class="time-label">Óra</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-number" id="minutes">0</div>
+                    <div class="time-label">Perc</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-number" id="seconds">0</div>
+                    <div class="time-label">Másodperc</div>
                 </div>
             </div>
-            
-            <div class="time-message" id="timeMessage" style="display: none;">
-                Itt az idő
-            </div>
-        </div>
+        </section>
 
-        <!-- Questions Container -->
-        <div class="questions-container" id="questionsContainer">
-            <!-- Question 1 -->
-            <div class="question-card" data-question="1">
-                <div class="question-title">Van valami apró, de fontos dolog, amit szeretnél megőrizni a jelenből?</div>
-                <input type="text" class="question-input" id="q1-input" placeholder="Írd le, mi az...">
-                <div class="nav-buttons">
-                    <div></div>
-                    <button class="btn" onclick="nextQuestion()">Tovább</button>
-                </div>
-            </div>
+        <!-- Celebration Section -->
+        <section class="section" id="celebration">
+            <div class="celebration">Itt az idő!</div>
+            <p>Kezdjük el az időkapszulád létrehozását</p>
+            <button class="btn" onclick="startQuestions()">Kezdés</button>
+        </section>
 
-            <!-- Question 2 -->
-            <div class="question-card" data-question="2">
-                <div class="question-title">Így érzem magam</div>
+        <!-- Questions -->
+        <section class="section" id="question1">
+            <div class="question-card">
+                <h2 class="question-title">Van valami apró, de fontos dolog, amit szeretnél megőrizni a jelenből?</h2>
+                <input type="text" class="text-input" id="answer1" placeholder="Írj valamit, ami most fontos számodra...">
+                <button class="btn" onclick="nextQuestion(2)">Tovább</button>
+            </div>
+        </section>
+
+        <section class="section" id="question2">
+            <div class="question-card">
+                <h2 class="question-title">Így érzem magam</h2>
                 <div class="mood-slider-container">
                     <input type="range" min="1" max="10" value="5" class="mood-slider" id="moodSlider">
-                    <div style="text-align: center;">
-                        <span class="mood-value" id="moodValue">5</span>
+                    <div class="mood-labels">
+                        <span>Szomorú (1)</span>
+                        <span>Boldog (10)</span>
                     </div>
                 </div>
-                <div class="nav-buttons">
-                    <button class="btn" onclick="prevQuestion()">Vissza</button>
-                    <button class="btn" onclick="nextQuestion()">Tovább</button>
-                </div>
+                <button class="btn" onclick="nextQuestion(3)">Tovább</button>
             </div>
+        </section>
 
-            <!-- Question 3 -->
-            <div class="question-card" data-question="3">
-                <div class="question-title">Hagyj 3 képet magadnak</div>
-                <div class="upload-section">
-                    <div class="upload-item">
-                        <label class="upload-label">1. Amire büszke vagyok:</label>
-                        <input type="file" class="file-input" accept="image/*" id="proud-image">
+        <section class="section" id="question3">
+            <div class="question-card">
+                <h2 class="question-title">Hagyj 3 képet magadnak</h2>
+                <div class="image-uploads">
+                    <div class="image-upload-card" onclick="document.getElementById('image1').click()">
+                        <input type="file" id="image1" class="file-input" accept="image/*" onchange="handleImageUpload(1)">
+                        <div class="upload-label">Amire büszke vagyok</div>
+                        <div id="preview1">📷 Kép feltöltése</div>
                     </div>
-                    <div class="upload-item">
-                        <label class="upload-label">2. Amire mindig emlékezni fogok:</label>
-                        <input type="file" class="file-input" accept="image/*" id="memory-image">
+                    <div class="image-upload-card" onclick="document.getElementById('image2').click()">
+                        <input type="file" id="image2" class="file-input" accept="image/*" onchange="handleImageUpload(2)">
+                        <div class="upload-label">Amire mindig emlékezni fogok</div>
+                        <div id="preview2">📷 Kép feltöltése</div>
                     </div>
-                    <div class="upload-item">
-                        <label class="upload-label">3. Egy kép a családommal:</label>
-                        <input type="file" class="file-input" accept="image/*" id="family-image">
+                    <div class="image-upload-card" onclick="document.getElementById('image3').click()">
+                        <input type="file" id="image3" class="file-input" accept="image/*" onchange="handleImageUpload(3)">
+                        <div class="upload-label">Egy kép a családommal</div>
+                        <div id="preview3">📷 Kép feltöltése</div>
                     </div>
                 </div>
-                <div class="nav-buttons">
-                    <button class="btn" onclick="prevQuestion()">Vissza</button>
-                    <button class="btn" onclick="nextQuestion()">Tovább</button>
-                </div>
+                <button class="btn" onclick="nextQuestion(4)">Tovább</button>
             </div>
+        </section>
 
-            <!-- Question 4 -->
-            <div class="question-card" data-question="4">
-                <div class="question-title">Mi az a belső cél, amiért a legmélyebben élsz?</div>
-                <textarea class="question-textarea" id="q4-input" placeholder="Írd le a célodat..." rows="4"></textarea>
-                <div class="nav-buttons">
-                    <button class="btn" onclick="prevQuestion()">Vissza</button>
-                    <button class="btn" onclick="nextQuestion()">Tovább</button>
-                </div>
+        <section class="section" id="question4">
+            <div class="question-card">
+                <h2 class="question-title">Mi az a belső cél, amiért a legmélyebben élsz?</h2>
+                <textarea class="text-input textarea-input" id="answer4" placeholder="Gondolj a legmélyebb motivációidra..."></textarea>
+                <button class="btn" onclick="nextQuestion(5)">Tovább</button>
             </div>
+        </section>
 
-            <!-- Question 5 -->
-            <div class="question-card" data-question="5">
-                <div class="question-title">Egy cél, amit minden áron el szeretnék érni</div>
-                <textarea class="question-textarea" id="q5-input" placeholder="Írd le, mit szeretnél elérni..." rows="4"></textarea>
-                <div class="nav-buttons">
-                    <button class="btn" onclick="prevQuestion()">Vissza</button>
-                    <button class="btn" onclick="nextQuestion()">Tovább</button>
-                </div>
+        <section class="section" id="question5">
+            <div class="question-card">
+                <h2 class="question-title">Egy cél, amit minden áron el szeretnék érni</h2>
+                <textarea class="text-input textarea-input" id="answer5" placeholder="Mi az, aminek eléréséért mindent megtennél?"></textarea>
+                <button class="btn" onclick="nextQuestion(6)">Tovább</button>
             </div>
+        </section>
 
-            <!-- Questions 6-10 -->
-            <div class="question-card" data-question="6">
-                <div class="question-title">6. kérdés (hozzáadandó)</div>
-                <input type="text" class="question-input" placeholder="Válaszod...">
-                <div class="nav-buttons">
-                    <button class="btn" onclick="prevQuestion()">Vissza</button>
-                    <button class="btn" onclick="nextQuestion()">Tovább</button>
-                </div>
+        <section class="section" id="question6">
+            <div class="question-card">
+                <h2 class="question-title">Melyek a legfontosabb értékeid?</h2>
+                <textarea class="text-input textarea-input" id="answer6" placeholder="Sorold fel azokat az értékeket, amelyek vezetnek téged..."></textarea>
+                <button class="btn" onclick="nextQuestion(7)">Tovább</button>
             </div>
+        </section>
 
-            <div class="question-card" data-question="7">
-                <div class="question-title">7. kérdés (hozzáadandó)</div>
-                <input type="text" class="question-input" placeholder="Válaszod...">
-                <div class="nav-buttons">
-                    <button class="btn" onclick="prevQuestion()">Vissza</button>
-                    <button class="btn" onclick="nextQuestion()">Tovább</button>
-                </div>
+        <section class="section" id="question7">
+            <div class="question-card">
+                <h2 class="question-title">Írj egy rövid levelet a jövőbeli önmagadnak</h2>
+                <textarea class="text-input textarea-input" id="answer7" placeholder="Kedves jövőbeli énem..."></textarea>
+                <button class="btn" onclick="nextQuestion(8)">Tovább</button>
             </div>
+        </section>
 
-            <div class="question-card" data-question="8">
-                <div class="question-title">8. kérdés (hozzáadandó)</div>
-                <input type="text" class="question-input" placeholder="Válaszod...">
-                <div class="nav-buttons">
-                    <button class="btn" onclick="prevQuestion()">Vissza</button>
-                    <button class="btn" onclick="nextQuestion()">Tovább</button>
-                </div>
+        <section class="section" id="question8">
+            <div class="question-card">
+                <h2 class="question-title">Egy dal vagy zene, ami most téged jellemez</h2>
+                <input type="text" class="text-input" id="answer8" placeholder="Írd be a dal címét vagy egy YouTube linket...">
+                <button class="btn" onclick="nextQuestion(9)">Tovább</button>
             </div>
+        </section>
 
-            <div class="question-card" data-question="9">
-                <div class="question-title">9. kérdés (hozzáadandó)</div>
-                <input type="text" class="question-input" placeholder="Válaszod...">
-                <div class="nav-buttons">
-                    <button class="btn" onclick="prevQuestion()">Vissza</button>
-                    <button class="btn" onclick="nextQuestion()">Tovább</button>
-                </div>
+        <section class="section" id="question9">
+            <div class="question-card">
+                <h2 class="question-title">Egy tárgy, ami a jelenlegi álmaidat szimbolizálja</h2>
+                <textarea class="text-input textarea-input" id="answer9" placeholder="Írj le egy tárgyat, ami most fontos számodra..."></textarea>
+                <button class="btn" onclick="nextQuestion(10)">Tovább</button>
             </div>
+        </section>
 
-            <div class="question-card" data-question="10">
-                <div class="question-title">10. kérdés (hozzáadandó)</div>
-                <input type="text" class="question-input" placeholder="Válaszod...">
-                <div class="nav-buttons">
-                    <button class="btn" onclick="prevQuestion()">Vissza</button>
-                    <button class="btn" onclick="finishCapsule()">Befejezés</button>
-                </div>
+        <section class="section" id="question10">
+            <div class="question-card">
+                <h2 class="question-title">Hálás vagyok...</h2>
+                <textarea class="text-input textarea-input" id="answer10" placeholder="Írj egy hálás üzenetet valakinek, aki fontos számodra..."></textarea>
+                <button class="btn" onclick="showReview()">Befejezés</button>
             </div>
-        </div>
+        </section>
+
+        <!-- Review Section -->
+        <section class="section" id="review">
+            <div class="question-card">
+                <h2 class="question-title">Az időkapszulád</h2>
+                <div class="review-grid" id="reviewContent">
+                    <!-- Review content will be generated here -->
+                </div>
+                <button class="btn" onclick="downloadData()">Letöltés JSON-ként</button>
+                <button class="btn btn-secondary" onclick="startFresh()">Új kezdés</button>
+            </div>
+        </section>
     </div>
 
     <script>
-        let currentQuestion = 1;
-        const totalQuestions = 10;
+        let currentStep = 0;
+        let timeCapsuleData = {};
+        let images = {};
 
-        // Test functions
-        function testTimer() {
-            document.getElementById('butterflyScene').style.display = 'block';
-            document.getElementById('questionsContainer').style.display = 'none';
-            document.getElementById('timeMessage').style.display = 'none';
-            document.getElementById('timerContainer').style.display = 'block';
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedData();
+            setTimeout(checkDateAndProceed, 4000); // Wait for butterfly animation
             
-            // Set a test target date (10 seconds from now)
-            const testDate = new Date();
-            testDate.setSeconds(testDate.getSeconds() + 10);
-            updateTimer(testDate);
-            setInterval(() => updateTimer(testDate), 1000);
-        }
-
-        function testTimeMessage() {
-            document.getElementById('butterflyScene').style.display = 'block';
-            document.getElementById('questionsContainer').style.display = 'none';
-            document.getElementById('timerContainer').style.display = 'none';
-            showTimeMessage();
-        }
-
-        // Main date checking function
-        function checkDate() {
-            const now = new Date();
-            const targetDate = new Date(now.getFullYear(), 8, 10); // September 10
-            
-            // Adjust if the date has passed this year
-            if (now > targetDate) {
-                targetDate.setFullYear(targetDate.getFullYear() + 1);
+            // Set up mood slider background change
+            const moodSlider = document.getElementById('moodSlider');
+            if (moodSlider) {
+                moodSlider.addEventListener('input', updateMoodBackground);
             }
-            
-            setTimeout(() => {
-                if (now.toDateString() === targetDate.toDateString()) {
-                    showTimeMessage();
-                } else {
-                    showTimer(targetDate);
-                }
-            }, 6000); // Wait for butterfly animation
+        });
+
+        function checkDateAndProceed() {
+            const today = new Date();
+            const targetDate = new Date('2025-09-10');
+            const countdownTarget = new Date('2025-09-05');
+
+            if (today.getMonth() === 8 && today.getDate() === 10) { // September 10
+                showSection('celebration');
+            } else {
+                showSection('countdown-section');
+                startCountdown(countdownTarget);
+            }
         }
 
-        function showTimer(targetDate) {
-            document.getElementById('timerContainer').style.display = 'block';
-            updateTimer(targetDate);
-            
-            const timerInterval = setInterval(() => {
-                const timeLeft = updateTimer(targetDate);
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    showTimeMessage();
+        function startCountdown(targetDate) {
+            const countdownInterval = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = targetDate.getTime() - now;
+
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    showSection('celebration');
+                    return;
                 }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = hours;
+                document.getElementById('minutes').textContent = minutes;
+                document.getElementById('seconds').textContent = seconds;
             }, 1000);
         }
 
-        function updateTimer(targetDate) {
-            const now = new Date();
-            const difference = targetDate - now;
-            
-            if (difference <= 0) {
-                document.getElementById('days').textContent = '00';
-                document.getElementById('hours').textContent = '00';
-                document.getElementById('minutes').textContent = '00';
-                document.getElementById('seconds').textContent = '00';
-                return 0;
-            }
-            
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-            
-            document.getElementById('days').textContent = days.toString().padStart(2, '0');
-            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-            
-            return difference;
-        }
-
-        function showTimeMessage() {
-            document.getElementById('timerContainer').style.display = 'none';
-            document.getElementById('timeMessage').style.display = 'block';
-            
-            setTimeout(startQuestions, 4000);
-        }
-
         function startQuestions() {
-            document.getElementById('butterflyScene').style.display = 'none';
-            document.getElementById('questionsContainer').style.display = 'block';
-            showQuestion(1);
-            updateProgress();
+            currentStep = 1;
+            showSection('question1');
+            updateProgressBar();
         }
 
-        function showQuestion(questionNum) {
-            document.querySelectorAll('.question-card').forEach(card => {
-                card.classList.remove('active');
+        function nextQuestion(step) {
+            saveCurrentAnswer();
+            currentStep = step;
+            showSection('question' + step);
+            updateProgressBar();
+            saveToLocalStorage();
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
             });
-            
-            document.querySelector(`[data-question="${questionNum}"]`).classList.add('active');
-            currentQuestion = questionNum;
-            updateProgress();
+            document.getElementById(sectionId).classList.add('active');
         }
 
-        function nextQuestion() {
-            if (currentQuestion < totalQuestions) {
-                showQuestion(currentQuestion + 1);
-            }
-        }
-
-        function prevQuestion() {
-            if (currentQuestion > 1) {
-                showQuestion(currentQuestion - 1);
-            }
-        }
-
-        function updateProgress() {
-            const progress = (currentQuestion / totalQuestions) * 100;
+        function updateProgressBar() {
+            const progress = (currentStep / 10) * 100;
             document.getElementById('progressBar').style.width = progress + '%';
         }
 
-        // Mood slider functionality
-        const moodSlider = document.getElementById('moodSlider');
-        const moodValue = document.getElementById('moodValue');
+        function saveCurrentAnswer() {
+            if (currentStep === 0) return;
+            
+            const input = document.getElementById('answer' + currentStep) || 
+                         document.getElementById('moodSlider');
+            
+            if (input) {
+                timeCapsuleData['question' + currentStep] = input.value;
+            }
+        }
 
-        if (moodSlider) {
-            moodSlider.addEventListener('input', function() {
-                const value = this.value;
-                moodValue.textContent = value;
+        function updateMoodBackground() {
+            const slider = document.getElementById('moodSlider');
+            const value = slider.value;
+            const percentage = (value - 1) / 9; // Convert to 0-1 range
+            
+            // Update CSS custom property for dynamic background
+            document.documentElement.style.setProperty(
+                '--mood-gradient', 
+                `linear-gradient(135deg, 
+                    rgba(74, 144, 226, ${0.3 - percentage * 0.2}) 0%, 
+                    rgba(245, 166, 35, ${percentage * 0.3}) 100%)`
+            );
+            
+            document.body.style.background = `var(--mood-gradient), linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-light) 100%)`;
+        }
+
+        function handleImageUpload(imageNumber) {
+            const input = document.getElementById('image' + imageNumber);
+            const preview = document.getElementById('preview' + imageNumber);
+            const card = input.parentElement;
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    images['image' + imageNumber] = e.target.result;
+                    preview.innerHTML = `<img src="${e.target.result}" class="image-preview" alt="Preview">`;
+                    card.classList.add('has-image');
+                    saveToLocalStorage();
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function showReview() {
+            saveCurrentAnswer();
+            saveToLocalStorage();
+            
+            const reviewContent = document.getElementById('reviewContent');
+            let html = '';
+            
+            // Add timestamp
+            html += `<div class="review-item">
+                <div class="review-label">Létrehozva</div>
+                <div class="review-content">${new Date().toLocaleString('hu-HU')}</div>
+            </div>`;
+
+            // Add answers
+            const questions = [
+                'Van valami apró, de fontos dolog, amit szeretnél megőrizni a jelenből?',
+                'Hangulat (1-10 skála)',
+                'Képek',
+                'Mi az a belső cél, amiért a legmélyebben élsz?',
+                'Egy cél, amit minden áron el szeretnék érni',
+                'Melyek a legfontosabb értékeid?',
+                'Levél a jövőbeli önmagadnak',
+                'Egy dal vagy zene, ami most téged jellemez',
+                'Egy tárgy, ami a jelenlegi álmaidat szimbolizálja',
+                'Hálás vagyok...'
+            ];
+
+            questions.forEach((question, index) => {
+                const questionNum = index + 1;
+                const answer = timeCapsuleData['question' + questionNum];
+                
+                if (answer && questionNum !== 3) {
+                    html += `<div class="review-item">
+                        <div class="review-label">${question}</div>
+                        <div class="review-content">${answer}</div>
+                    </div>`;
+                }
+            });
+
+            // Add images
+            if (Object.keys(images).length > 0) {
+                html += `<div class="review-item">
+                    <div class="review-label">Feltöltött képek</div>
+                    <div class="review-images">`;
+                
+                Object.values(images).forEach(imageSrc => {
+                    html += `<img src="${imageSrc}" class="review-image" alt="Uploaded image">`;
+                });
+                
+                html += `</div></div>`;
+            }
+
+            reviewContent.innerHTML = html;
+            showSection('review');
+        }
+
+        function downloadData() {
+            const data = {
+                timestamp: new Date().toISOString(),
+                answers: timeCapsuleData,
+                images: images,
+                meta {
+                    version: '1.0',
+                    totalQuestions: 10
+                }
+            };
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `time-capsule-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function startFresh() {
+            if (confirm('Biztosan új időkapszulát szeretnél kezdeni? A jelenlegi adatok elvesznek.')) {
+                localStorage.removeItem('timeCapsuleData');
+                localStorage.removeItem('timeCapsuleImages');
+                localStorage.removeItem('timeCapsuleStep');
+                location.reload();
+            }
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('timeCapsuleData', JSON.stringify(timeCapsuleData));
+            localStorage.setItem('timeCapsuleImages', JSON.stringify(images));
+            localStorage.setItem('timeCapsuleStep', currentStep.toString());
+        }
+
+        function loadSavedData() {
+            const savedData = localStorage.getItem('timeCapsuleData');
+            const savedImages = localStorage.getItem('timeCapsuleImages');
+            const savedStep = localStorage.getItem('timeCapsuleStep');
+
+            if (savedData) {
+                timeCapsuleData = JSON.parse(savedData);
+            }
+            if (savedImages) {
+                images = JSON.parse(savedImages);
+            }
+            if (savedStep && parseInt(savedStep) > 0) {
+                currentStep = parseInt(savedStep);
+                // Restore form values and continue from saved step
+                setTimeout(() => {
+                    restoreFormValues();
+                    if (currentStep <= 10) {
+                        showSection('question' + currentStep);
+                        updateProgressBar();
+                    } else {
+                        showReview();
+                    }
+                }, 4500); // After entrance animation
+            }
+        }
+
+        function restoreFormValues() {
+            Object.keys(timeCapsuleData).forEach(key => {
+                const element = document.getElementById(key.replace('question', 'answer')) || 
+                               document.getElementById('moodSlider');
+                if (element) {
+                    element.value = timeCapsuleData[key];
+                }
+            });
+
+            // Restore images
+            Object.keys(images).forEach(key => {
+                const preview = document.getElementById('preview' + key.replace('image', ''));
+                const card = preview.parentElement;
+                if (preview && images[key]) {
+                    preview.innerHTML = `<img src="${images[key]}" class="image-preview" alt="Preview">`;
+                    card.classList.add('has-image');
+                }
             });
         }
 
-        function finishCapsule() {
-            alert('Időkapszula elkészült!\n\nVálaszaid biztonságban vannak a jövő számára.');
-            
-            const capsuleData = {
-                q1: document.getElementById('q1-input').value,
-                mood: document.getElementById('moodSlider').value,
-                q4: document.getElementById('q4-input').value,
-                q5: document.getElementById('q5-input').value,
-                timestamp: new Date().toISOString()
-            };
-            
-            localStorage.setItem('timeCapsule', JSON.stringify(capsuleData));
-        }
-
-        // Initialize the app
-        checkDate();
+        // Auto-save on input changes
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('text-input') || e.target.classList.contains('mood-slider')) {
+                saveCurrentAnswer();
+                saveToLocalStorage();
+            }
+        });
     </script>
 </body>
 </html>
