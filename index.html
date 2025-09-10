@@ -22,11 +22,6 @@
       transition: all 0.8s ease;
     }
     
-    .main-container.completed {
-      align-items: flex-start;
-      padding-top: 2rem;
-    }
-    
     .countdown {
       display: flex;
       gap: 0.5rem;
@@ -46,21 +41,49 @@
       text-align: center;
       flex: 1 1 auto;
       user-select: none;
+      transition: all 0.6s ease;
     }
     
-    .top-timer {
+    .block.fade-out {
+      opacity: 0;
+      transform: scale(0.8);
+      pointer-events: none;
+    }
+    
+    .block.hidden {
+      display: none;
+    }
+    
+    .final-countdown {
       position: fixed;
-      top: 20px;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.95);
+      transform: translate(-50%, -50%) scale(1.5);
+      background: #fff;
       color: #101010;
+      font-weight: bold;
+      font-size: clamp(3rem, 12vw, 4.5rem);
+      padding: 1.2rem 2rem;
+      border-radius: 12px;
+      min-width: 80px;
+      text-align: center;
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    .final-countdown.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.5);
+    }
+    
+    .final-countdown.move-to-top {
+      top: 20px;
+      transform: translate(-50%, 0) scale(0.6);
+      font-size: 1.5rem;
       padding: 0.5rem 1rem;
       border-radius: 8px;
-      font-weight: bold;
-      font-size: 1.5rem;
-      display: none;
-      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
     }
     
@@ -68,100 +91,90 @@
       font-size: 0.8rem;
       font-weight: normal;
       opacity: 0.7;
+      margin-left: 0.5rem;
     }
     
-    .rocket-container {
+    .content-area {
       position: fixed;
-      bottom: -300px;
-      left: 50%;
-      transform: translateX(-50%);
-      transition: bottom 1s ease-out;
-      z-index: 100;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+      z-index: 500;
     }
     
-    .rocket-container.show {
-      bottom: 20px;
+    .content-area.show {
+      opacity: 1;
+      pointer-events: all;
     }
     
-    .rocket {
-      width: 80px;
-      height: 120px;
-      background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
-      border-radius: 40px 40px 10px 10px;
-      position: relative;
-      margin: 0 auto 20px;
-      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-    }
-    
-    .rocket::before {
-      content: '';
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 30px;
-      height: 40px;
-      background: #fff;
-      border-radius: 15px;
-      opacity: 0.9;
-    }
-    
-    .rocket::after {
-      content: '';
-      position: absolute;
-      bottom: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-      border-top: 20px solid #ff4444;
-    }
-    
-    .flame {
-      position: absolute;
-      bottom: -40px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 20px;
-      height: 30px;
-      background: linear-gradient(180deg, #ff6600, #ffaa00);
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      animation: flicker 0.3s alternate infinite;
-    }
-    
-    @keyframes flicker {
-      0% { transform: translateX(-50%) scale(1); }
-      100% { transform: translateX(-50%) scale(1.1, 0.9); }
-    }
-    
-    .input-box {
+    .upload-container {
       background: rgba(255, 255, 255, 0.95);
-      padding: 1.5rem;
-      border-radius: 12px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      min-width: 300px;
+      padding: 2rem;
+      border-radius: 16px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      min-width: 400px;
       max-width: 90vw;
+      transform: translateY(30px);
+      transition: transform 0.8s ease;
+    }
+    
+    .content-area.show .upload-container {
+      transform: translateY(0);
+    }
+    
+    .countdown-info {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #101010;
+    }
+    
+    .countdown-info h2 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    
+    .countdown-info p {
+      margin: 0;
+      opacity: 0.7;
+      font-size: 1rem;
+    }
+    
+    .day-countdown {
+      background: #101010;
+      color: #fff;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      display: inline-block;
+      margin: 1rem 0;
     }
     
     .photo-input {
       width: 100%;
       height: 200px;
       border: 2px dashed #ccc;
-      border-radius: 8px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
       cursor: pointer;
       transition: all 0.3s ease;
       background: #f9f9f9;
     }
     
     .photo-input:hover {
-      border-color: #ff6b6b;
+      border-color: #101010;
       background: #fff;
     }
     
@@ -173,32 +186,47 @@
       max-width: 100%;
       max-height: 100%;
       object-fit: cover;
-      border-radius: 6px;
+      border-radius: 8px;
     }
     
     .text-inputs {
       display: flex;
-      gap: 0.5rem;
+      gap: 1rem;
       flex-wrap: wrap;
     }
     
     .text-input {
       flex: 1;
-      min-width: 140px;
-      padding: 0.8rem;
+      min-width: 180px;
+      padding: 1rem;
       border: 2px solid #e0e0e0;
-      border-radius: 6px;
-      font-size: 0.9rem;
+      border-radius: 8px;
+      font-size: 1rem;
       transition: border-color 0.3s ease;
     }
     
     .text-input:focus {
       outline: none;
-      border-color: #ff6b6b;
+      border-color: #101010;
     }
     
     .hidden {
       display: none !important;
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.8s ease forwards;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .final-timer-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   </style>
 </head>
@@ -212,24 +240,30 @@
     </div>
   </div>
 
-  <div class="top-timer" id="topTimer">
-    <span id="topTime">00:00</span>
-    <span class="nanoseconds" id="nanoseconds">0000</span>
+  <div class="final-countdown" id="finalCountdown">
+    <div class="final-timer-display">
+      <span id="finalSeconds">3</span>
+      <span class="nanoseconds hidden" id="nanoseconds">0000</span>
+    </div>
   </div>
 
-  <div class="rocket-container" id="rocketContainer">
-    <div class="rocket">
-      <div class="flame"></div>
-    </div>
-    <div class="input-box">
+  <div class="content-area" id="contentArea">
+    <div class="upload-container">
+      <div class="countdown-info">
+        <h2>Time Capsule Ready!</h2>
+        <p>You have 24 hours to save your memories</p>
+        <div class="day-countdown" id="dayCountdown">23:59:59</div>
+      </div>
+      
       <div class="photo-input" onclick="document.getElementById('photoFile').click()">
         <input type="file" id="photoFile" accept="image/*" onchange="previewPhoto(this)">
-        <span id="photoText">Click to add photo</span>
+        <span id="photoText">📸 Click to add your photo</span>
         <img id="photoPreview" class="photo-preview hidden">
       </div>
+      
       <div class="text-inputs">
-        <input type="text" class="text-input" placeholder="Message 1" id="message1">
-        <input type="text" class="text-input" placeholder="Message 2" id="message2">
+        <input type="text" class="text-input" placeholder="Your message..." id="message1">
+        <input type="text" class="text-input" placeholder="Future thoughts..." id="message2">
       </div>
     </div>
   </div>
@@ -240,22 +274,26 @@
       const elHours = document.getElementById('hours');
       const elMinutes = document.getElementById('minutes');
       const elSeconds = document.getElementById('seconds');
-      const topTimer = document.getElementById('topTimer');
-      const topTime = document.getElementById('topTime');
+      const finalCountdown = document.getElementById('finalCountdown');
+      const finalSeconds = document.getElementById('finalSeconds');
       const nanoseconds = document.getElementById('nanoseconds');
-      const mainContainer = document.getElementById('mainContainer');
-      const rocketContainer = document.getElementById('rocketContainer');
+      const contentArea = document.getElementById('contentArea');
+      const dayCountdown = document.getElementById('dayCountdown');
       
       const pad = n => String(n).padStart(2,'0');
       let isCompleted = false;
+      let finalCountdownActive = false;
+      let contentMode = false;
       let testMode = false;
       let clickCount = 0;
       let clickTimer = null;
+      let finalCountdownStart = null;
+      let contentModeStart = null;
 
       function nextTargetUTC(){
         const now = new Date();
         let year = now.getUTCFullYear();
-        let candidate = Date.UTC(year, 8, 11, 2, 0, 0); // Sept=8 (0-based), 11th, 02:00 UTC
+        let candidate = Date.UTC(year, 8, 11, 2, 0, 0);
         if (now.getTime() > candidate) {
           year += 1;
           candidate = Date.UTC(year, 8, 11, 2, 0, 0);
@@ -275,7 +313,7 @@
         
         if (clickCount === 3) {
           testMode = true;
-          target = Date.now(); // Set target to now for immediate countdown
+          target = Date.now() + 2000; // 2 seconds for testing
           clickCount = 0;
         } else {
           clickTimer = setTimeout(() => {
@@ -284,47 +322,107 @@
         }
       });
 
+      function startFinalCountdown() {
+        finalCountdownActive = true;
+        finalCountdownStart = Date.now();
+        
+        // Fade out other blocks
+        elDays.classList.add('fade-out');
+        elHours.classList.add('fade-out');
+        elMinutes.classList.add('fade-out');
+        
+        setTimeout(() => {
+          elDays.classList.add('hidden');
+          elHours.classList.add('hidden');
+          elMinutes.classList.add('hidden');
+          
+          // Show final countdown
+          finalCountdown.classList.add('show');
+        }, 600);
+      }
+
+      function moveToContentMode() {
+        contentMode = true;
+        contentModeStart = Date.now();
+        
+        // Move final countdown to top and show nanoseconds
+        finalCountdown.classList.add('move-to-top');
+        nanoseconds.classList.remove('hidden');
+        
+        // Hide main seconds block
+        elSeconds.classList.add('fade-out');
+        setTimeout(() => {
+          elSeconds.classList.add('hidden');
+        }, 600);
+        
+        // Show content area
+        setTimeout(() => {
+          contentArea.classList.add('show');
+        }, 800);
+      }
+
       function update(){
         const now = Date.now();
         let diff = target - now;
         
         if (diff <= 0 && !isCompleted) {
-          // Countdown completed
           isCompleted = true;
-          mainContainer.classList.add('completed');
-          topTimer.style.display = 'block';
-          setTimeout(() => {
-            rocketContainer.classList.add('show');
-          }, 800);
+          startFinalCountdown();
           diff = 0;
         }
 
-        if (isCompleted) {
-          // Show precise timer at top
+        if (finalCountdownActive && !contentMode) {
+          // Final 3-second countdown
+          const finalDiff = 3000 - (now - finalCountdownStart);
+          if (finalDiff <= 0) {
+            moveToContentMode();
+          } else {
+            const secondsLeft = Math.ceil(finalDiff / 1000);
+            finalSeconds.textContent = secondsLeft;
+          }
+        }
+
+        if (contentMode) {
+          // Show current time with nanoseconds
           const currentTime = new Date();
           const hours = pad(currentTime.getHours());
           const minutes = pad(currentTime.getMinutes());
+          const seconds = pad(currentTime.getSeconds());
           const milliseconds = String(currentTime.getMilliseconds()).padStart(3, '0');
           const microseconds = Math.floor(performance.now() % 1000);
           const nanoDisplay = (milliseconds + String(microseconds).padStart(3, '0')).substring(0, 4);
           
-          topTime.textContent = `${hours}:${minutes}`;
+          finalSeconds.textContent = `${hours}:${minutes}:${seconds}`;
           nanoseconds.textContent = nanoDisplay;
+          
+          // Update 24-hour countdown
+          const dayDiff = 86400000 - (now - contentModeStart); // 24 hours in ms
+          if (dayDiff > 0) {
+            const totalSecs = Math.floor(dayDiff / 1000);
+            const hours = Math.floor(totalSecs / 3600);
+            const minutes = Math.floor((totalSecs % 3600) / 60);
+            const seconds = totalSecs % 60;
+            dayCountdown.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+          } else {
+            dayCountdown.textContent = "00:00:00";
+          }
         }
 
-        // Update main countdown
-        const totalSeconds = Math.floor(diff/1000);
-        const seconds = totalSeconds % 60;
-        const totalMinutes = Math.floor(totalSeconds / 60);
-        const minutes = totalMinutes % 60;
-        const totalHours = Math.floor(totalMinutes / 60);
-        const hours = totalHours % 24;
-        const days = Math.floor(totalHours / 24);
+        if (!isCompleted) {
+          // Normal countdown display
+          const totalSeconds = Math.floor(diff/1000);
+          const seconds = totalSeconds % 60;
+          const totalMinutes = Math.floor(totalSeconds / 60);
+          const minutes = totalMinutes % 60;
+          const totalHours = Math.floor(totalMinutes / 60);
+          const hours = totalHours % 24;
+          const days = Math.floor(totalHours / 24);
 
-        elDays.textContent = pad(days);
-        elHours.textContent = pad(hours);
-        elMinutes.textContent = pad(minutes);
-        elSeconds.textContent = pad(seconds);
+          elDays.textContent = pad(days);
+          elHours.textContent = pad(hours);
+          elMinutes.textContent = pad(minutes);
+          elSeconds.textContent = pad(seconds);
+        }
       }
 
       // Photo preview function
@@ -344,7 +442,7 @@
         }
       }
 
-      setInterval(update, 16); // Higher frequency for smoother nanoseconds
+      setInterval(update, 16); // High frequency for smooth animations
       update();
     })();
   </script>
