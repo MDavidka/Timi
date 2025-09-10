@@ -16,17 +16,21 @@
     }
     .countdown {
       display: flex;
-      gap: 1rem;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 90%;
     }
     .block {
       background: #fff;
       color: #101010;
       font-weight: bold;
-      font-size: 3rem;
-      padding: 1rem 1.5rem;
+      font-size: clamp(2rem, 8vw, 3rem);
+      padding: 0.8rem 1.2rem;
       border-radius: 6px;
-      min-width: 80px;
+      min-width: 60px;
       text-align: center;
+      flex: 1 1 auto;
     }
   </style>
 </head>
@@ -44,14 +48,12 @@
       const elHours = document.getElementById('hours');
       const elMinutes = document.getElementById('minutes');
       const elSeconds = document.getElementById('seconds');
-
       const pad = n => String(n).padStart(2,'0');
 
       function nextTargetUTC(){
         const now = new Date();
         let year = now.getUTCFullYear();
-        // Sep 11, 05:00 GMT+3 = 02:00 UTC
-        let candidate = Date.UTC(year, 8, 11, 2, 0, 0);
+        let candidate = Date.UTC(year, 8, 11, 2, 0, 0); // Sept=8 (0-based), 11th, 02:00 UTC
         if (now.getTime() > candidate) {
           year += 1;
           candidate = Date.UTC(year, 8, 11, 2, 0, 0);
