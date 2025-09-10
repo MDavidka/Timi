@@ -303,7 +303,7 @@
 
       let target = nextTargetUTC();
 
-      // Triple click detection on days
+      // Double tap detection on days (changed from triple click)
       elDays.addEventListener('click', function() {
         clickCount++;
         
@@ -311,14 +311,14 @@
           clearTimeout(clickTimer);
         }
         
-        if (clickCount === 3) {
+        if (clickCount === 2) { // Changed to 2 for double tap
           testMode = true;
-          target = Date.now() + 2000; // 2 seconds for testing
+          target = Date.now(); // Set to immediate completion
           clickCount = 0;
         } else {
           clickTimer = setTimeout(() => {
             clickCount = 0;
-          }, 500);
+          }, 300); // Reduced timeout for faster double-tap detection
         }
       });
 
